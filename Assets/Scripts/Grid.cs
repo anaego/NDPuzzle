@@ -8,6 +8,7 @@ public class Grid : MonoBehaviour
     public PuzzleNodeView NodePrefab;
     public PuzzleNode[] nodes;
     public NodeConnection[] connections;
+    public RectTransform gridBackground;
 
     public int rowNumber = 3;
     public int columnNumber = 3;
@@ -17,8 +18,8 @@ public class Grid : MonoBehaviour
 
     public void Awake()
     {
-        xOffset = this.gameObject.GetComponent<RectTransform>().rect.width / (columnNumber + 1);
-        yOffset = this.gameObject.GetComponent<RectTransform>().rect.width / (rowNumber + 1);
+        xOffset = gridBackground.rect.width / (columnNumber + 1);
+        yOffset = gridBackground.rect.width / (rowNumber + 1);
     }
 
     public int CountConnectedNodes(PuzzleNode node)
@@ -42,10 +43,13 @@ public class Grid : MonoBehaviour
                 {
                     // nodes are instantiated in the upper left corner
                     var instnode = Instantiate(NodePrefab, this.transform, false);
-                    instnode.transform.localPosition = new Vector3(
-                        instnode.transform.localPosition.x + xOffset * column - instnode.GetComponent<RectTransform>().rect.width * 0.5f, 
-                        instnode.transform.localPosition.y - yOffset * row + instnode.GetComponent<RectTransform>().rect.width * 0.5f, 
-                        instnode.transform.localPosition.z);
+                    instnode.transform.position = new Vector3(
+                        // TODO getcomponent to field
+                        instnode.transform.position.x + xOffset * column - instnode.GetComponent<SpriteRenderer>().sprite.rect.width * 0.5f
+                                                                              , 
+                        instnode.transform.position.y - yOffset * row + instnode.GetComponent<SpriteRenderer>().sprite.rect.width * 0.5f
+                        , 
+                        instnode.transform.position.z);
                 }
             }
         }
