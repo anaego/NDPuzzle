@@ -9,17 +9,20 @@ public class Grid : MonoBehaviour
     public PuzzleNode[] nodes;
     public NodeConnection[] connections;
     public RectTransform gridBackground;
+    [SerializeField]
+    private Transform startTransform;
+
 
     public int rowNumber = 3;
     public int columnNumber = 3;
 
-    private float xOffset = 100;
-    private float yOffset = 100;
+    private float xOffset = 1;
+    private float yOffset = 1;
 
     public void Awake()
     {
-        xOffset = gridBackground.rect.width / (columnNumber + 1);
-        yOffset = gridBackground.rect.width / (rowNumber + 1);
+        //xOffset = (columnNumber + 1);
+        //yOffset = (rowNumber + 1);
     }
 
     public int CountConnectedNodes(PuzzleNode node)
@@ -34,6 +37,7 @@ public class Grid : MonoBehaviour
 
     public void PlaceNodes()
     {
+        Vector2 offset = startTransform.localPosition;
         for (int column = 1; column <= columnNumber; column++)
         {
             for (int row = 1; row <= rowNumber; row++)
@@ -43,17 +47,11 @@ public class Grid : MonoBehaviour
                 {
                     // nodes are instantiated in the upper left corner
                     var instnode = Instantiate(NodePrefab, this.transform, false);
-                    instnode.transform.position = new Vector3(
-                        // TODO getcomponent to field
-                        instnode.transform.position.x 
-                            //+ xOffset * column 
-                            - instnode.GetComponent<SpriteRenderer>().sprite.rect.width * 0.5f * instnode.transform.localScale.x
-                        , 
-                        instnode.transform.position.y 
-                            //- yOffset * row
-                            + instnode.GetComponent<SpriteRenderer>().sprite.rect.width * 0.5f * instnode.transform.localScale.y
-                        , 
-                        instnode.transform.position.z);
+                    var nodeScale = instnode.transform.localScale.x;
+                    instnode.transform.position = offset + new Vector2(
+                        ((xOffset + nodeScale) * column) ,
+                        ((yOffset + nodeScale) * row)
+                    );
                 }
             }
         }
