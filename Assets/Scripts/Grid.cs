@@ -45,9 +45,13 @@ public class Grid : MonoBehaviour
                     var instnode = Instantiate(NodePrefab, this.transform, false);
                     instnode.transform.position = new Vector3(
                         // TODO getcomponent to field
-                        instnode.transform.position.x + xOffset * column - instnode.GetComponent<SpriteRenderer>().sprite.rect.width * 0.5f
-                                                                              , 
-                        instnode.transform.position.y - yOffset * row + instnode.GetComponent<SpriteRenderer>().sprite.rect.width * 0.5f
+                        instnode.transform.position.x 
+                            //+ xOffset * column 
+                            - instnode.GetComponent<SpriteRenderer>().sprite.rect.width * 0.5f * instnode.transform.localScale.x
+                        , 
+                        instnode.transform.position.y 
+                            //- yOffset * row
+                            + instnode.GetComponent<SpriteRenderer>().sprite.rect.width * 0.5f * instnode.transform.localScale.y
                         , 
                         instnode.transform.position.z);
                 }
