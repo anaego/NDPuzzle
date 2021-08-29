@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ConnectionSwitcher : MonoBehaviour
 {
@@ -9,9 +7,31 @@ public class ConnectionSwitcher : MonoBehaviour
 
     public void OnMouseUp()
     {
-        if (!connection1.gameObject.activeInHierarchy && !connection1.gameObject.activeInHierarchy)
+        if (connection2 == null)
         {
-            connection1.gameObject.SetActive(true);
+            connection1.ToggleConnection(!connection1.On);
+        }
+        else
+        {
+            ToggleTwoConnections();
+        }
+    }
+
+    private void ToggleTwoConnections()
+    {
+        if (!connection1.On && !connection1.On)
+        {
+            connection1.ToggleConnection(true);
+        }
+        else if (connection1.On)
+        {
+            connection1.ToggleConnection(false);
+            connection2.ToggleConnection(true);
+        }
+        else if (connection2.On)
+        {
+            connection1.ToggleConnection(false);
+            connection2.ToggleConnection(false);
         }
     }
 }
