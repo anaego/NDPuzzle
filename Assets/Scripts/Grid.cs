@@ -56,6 +56,14 @@ public class Grid : MonoBehaviour
                             - yOffset * row
                             + mainOffset,
                         instnode.transform.localPosition.z);
+                    if (nodes.Any(puzzleNode => puzzleNode.positionInGridX == row - 1 && puzzleNode.positionInGridY == column))
+                    {
+                        // TODO connection below
+                    }
+                    // TODO connection above - no?
+                    // TODO connection right - no?
+                    // TODO connection left
+                    // TODO diagonal connections - we have cases when we only have one diagonal connection
                 }
             }
         }
