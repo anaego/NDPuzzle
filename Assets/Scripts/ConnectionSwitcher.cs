@@ -2,14 +2,18 @@
 
 public class ConnectionSwitcher : MonoBehaviour
 {
-    public NodeConnection connection1;
-    public NodeConnection connection2;
+    public NodeConnection upperLeftToLowerRight; // diagonal from upper left to lower right
+    public NodeConnection upperRightToLowerLeft; // diagonal from lower left to upper right
 
     public void OnMouseUp()
     {
-        if (connection2 == null)
+        if (upperRightToLowerLeft == null)
         {
-            connection1.ToggleConnection(!connection1.On);
+            upperLeftToLowerRight.ToggleConnection(!upperLeftToLowerRight.On);
+        }
+        else if (upperLeftToLowerRight == null) 
+        {
+            upperLeftToLowerRight.ToggleConnection(!upperLeftToLowerRight.On);
         }
         else
         {
@@ -17,21 +21,22 @@ public class ConnectionSwitcher : MonoBehaviour
         }
     }
 
-    private void ToggleTwoConnections()
+    public void ToggleTwoConnections()
     {
-        if (!connection1.On && !connection1.On)
+        if (!upperLeftToLowerRight.On && !upperRightToLowerLeft.On)
         {
-            connection1.ToggleConnection(true);
+            upperLeftToLowerRight.ToggleConnection(true);
+            upperRightToLowerLeft.ToggleConnection(false);
         }
-        else if (connection1.On)
+        else if (upperLeftToLowerRight.On)
         {
-            connection1.ToggleConnection(false);
-            connection2.ToggleConnection(true);
+            upperLeftToLowerRight.ToggleConnection(false);
+            upperRightToLowerLeft.ToggleConnection(true);
         }
-        else if (connection2.On)
+        else if (upperRightToLowerLeft.On)
         {
-            connection1.ToggleConnection(false);
-            connection2.ToggleConnection(false);
+            upperLeftToLowerRight.ToggleConnection(false);
+            upperRightToLowerLeft.ToggleConnection(false);
         }
     }
 }

@@ -17,7 +17,7 @@ public class PuzzleCreator : MonoBehaviour
         var node6 = new PuzzleNode(2, 3, 1);
         var node7 = new PuzzleNode(3, 1, 1);
         var node8 = new PuzzleNode(3, 2, 1);
-        var node9 = new PuzzleNode(3, 3, 1);
+        var node9 = new PuzzleNode(3, 3, 0);
         //node1.transform.position = Random.insideUnitCircle;
         //node2.transform.position = Random.insideUnitCircle;
         grid.nodes = new PuzzleNode[] { node1, node2, node3, node4, node5, node6, node7, node8, node9 };
