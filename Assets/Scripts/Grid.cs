@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Grid : MonoBehaviour
@@ -8,7 +9,7 @@ public class Grid : MonoBehaviour
     public NodeConnection horizontalConnectionPrefab;
     public ConnectionSwitcher diagonalConnectionPrefab;
     public PuzzleNode[] nodes;
-    public NodeConnection[] connections;
+    public List<NodeConnection> connections = new List<NodeConnection>();
     public RectTransform gridBackground;
     //public Transform startTransform;
 
@@ -34,7 +35,7 @@ public class Grid : MonoBehaviour
         var count = 0;
         foreach (var connection in connections)
         {
-            if (connection.startNode == node || connection.endNode == node) count++;
+            if ((connection.startNode == node || connection.endNode == node) && connection.On) count++;
         }
         return count;
     }
@@ -62,16 +63,19 @@ public class Grid : MonoBehaviour
                     if (nodes.Any(puzzleNode => puzzleNode.positionInGridX == row - 1 && puzzleNode.positionInGridY == column))
                     {
                         // connection above
-                        var connectionBelow = Instantiate(verticalConnectionPrefab, this.transform, false);
-                        connectionBelow.transform.localPosition = new Vector3(
-                            connectionBelow.transform.localPosition.x
+                        var connectionAbove = Instantiate(verticalConnectionPrefab, this.transform, false);
+                        connectionAbove.transform.localPosition = new Vector3(
+                            connectionAbove.transform.localPosition.x
                                 + xOffset * column
                                 - mainOffset,
-                            connectionBelow.transform.localPosition.y
+                            connectionAbove.transform.localPosition.y
                                 - yOffset * row
                                 + mainOffset
                                 + yOffset / 2,
-                            connectionBelow.transform.localPosition.z);
+                            connectionAbove.transform.localPosition.z);
+                        connectionAbove.startNode = nodes.First(puzzleNode => puzzleNode.positionInGridX == row - 1 && puzzleNode.positionInGridY == column);
+                        connectionAbove.endNode = node;
+                        connections.Add(connectionAbove);
                     }
                     if (nodes.Any(puzzleNode => puzzleNode.positionInGridX == row && puzzleNode.positionInGridY == column - 1))
                     {
@@ -86,6 +90,9 @@ public class Grid : MonoBehaviour
                                 - yOffset * row
                                 + mainOffset,
                             connectionLeft.transform.localPosition.z);
+                        connectionLeft.startNode = nodes.First(puzzleNode => puzzleNode.positionInGridX == row && puzzleNode.positionInGridY == column - 1);
+                        connectionLeft.endNode = node;
+                        connections.Add(connectionLeft);
                     }
                     // diagonal connections
                     var upperLeftNodeExists = nodes.Any(puzzleNode => puzzleNode.positionInGridX == row - 1 && puzzleNode.positionInGridY == column - 1);
@@ -112,6 +119,7 @@ public class Grid : MonoBehaviour
                         {
                             diagonalConnection.upperLeftToLowerRight.startNode = nodes.First(puzzleNode => puzzleNode.positionInGridX == row - 1 && puzzleNode.positionInGridY == column);
                             diagonalConnection.upperLeftToLowerRight.endNode = node;
+                            connections.Add(diagonalConnection.upperLeftToLowerRight);
                         }
                         if (!(upperNodeExists && leftNodeExists))
                         {
@@ -121,6 +129,7 @@ public class Grid : MonoBehaviour
                         {
                             diagonalConnection.upperRightToLowerLeft.startNode = nodes.First(puzzleNode => puzzleNode.positionInGridX == row - 1 && puzzleNode.positionInGridY == column);
                             diagonalConnection.upperRightToLowerLeft.endNode = nodes.First(puzzleNode => puzzleNode.positionInGridX == row && puzzleNode.positionInGridY == column - 1);
+                            connections.Add(diagonalConnection.upperRightToLowerLeft);
                         }
                     }
                 }
@@ -135,6 +144,18 @@ public class Grid : MonoBehaviour
             if (CountConnectedNodes(puzzleNode) != puzzleNode.number) return false;
         }
         return true;
+    }
+
+    public void ShowPuzzleResult()
+    {
+        if (CheckPuzzleSolved())
+        {
+            Debug.Log("Correct!");
+        }
+        else
+        {
+            Debug.Log("Not solved yet!");
+        }
     }
 }
 
