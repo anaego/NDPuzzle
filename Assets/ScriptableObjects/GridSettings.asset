@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd1ec767586d88e45a5be02a446c7568, type: 3}
+  m_Name: GridSettings
+  m_EditorClassIdentifier: 
+  nodePrefab: {fileID: 9133416204323674196, guid: 4da16f95c1f75c042ba57595c335931b,
+    type: 3}
+  verticalConnectionPrefab: {fileID: 251999763241127440, guid: 9deb6cf4324dc9f46a28c2b720d00dc7,
+    type: 3}
+  horizontalConnectionPrefab: {fileID: 7549265871348754163, guid: 3987e5e84ed284149aa246e5edbeb2e7,
+    type: 3}
+  diagonalConnectionContainerPrefab: {fileID: 6267960594135574725, guid: c172e3f2858f5f94f89d38bc98a51a01,
+    type: 3}
+  rowNumber: 3
+  columnNumber: 3
+  nodeGenerationProbability: 0.9
+  baseXOffset: 10
+  baseYOffset: 10
